@@ -15,23 +15,21 @@ from langchain.chains import create_history_aware_retriever
 from langchain_core.runnables import RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
 
-# ------------------------------------------------------------
 # BASIC SETUP
-# ------------------------------------------------------------
+
 load_dotenv()
 st.set_page_config(page_title="RAG Chatbot Pro", layout="wide")
 st.title("🧠 Intelligent RAG Chatbot")
 
 UPLOAD_DIR = "./temp_docs"
 
-# ------------------------------------------------------------
 # COMPACT SIDEBAR LOGIC (No Scrolling Fix)
-# ------------------------------------------------------------
+
 with st.sidebar:
     st.title("🤖 Config & Upload")
     
-    # --- SECTION 1: SETTINGS (COLLAPSIBLE) ---
-    # Isko expander me daal diya taaki jagah na le
+    # SETTINGS (COLLAPSIBLE) ---
+   
     with st.expander("⚙️ Settings", expanded=False):
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
@@ -44,22 +42,22 @@ with st.sidebar:
             index=0
         )
         
-        # Clear Chat Button (Small)
+        # Clear Chat Button 
         if st.button("🗑️ Reset Chat"):
             st.session_state.chat_history = []
             st.session_state.messages = []
             st.rerun()
 
-    # --- SECTION 2: UPLOAD (ALWAYS VISIBLE) ---
+    # UPLOAD 
     st.subheader("📂 Upload Files")
     uploaded_files = st.file_uploader(
         "Drop PDFs/TXT/DOCX here:", 
         type=['pdf', 'txt', 'docx'], 
         accept_multiple_files=True,
-        label_visibility="collapsed" # Label chipa diya space bachane ke liye
+        label_visibility="collapsed" 
     )
 
-    # --- ACTION BUTTONS (SIDE-BY-SIDE) ---
+    #  ACTION BUTTONS 
     col1, col2 = st.columns(2)
     with col1:
         process_btn = st.button("🔄 Process", use_container_width=True)
@@ -110,9 +108,9 @@ with st.sidebar:
         else:
             st.warning("⚠️ Select files first.")
 
-# ------------------------------------------------------------
+
 # MAIN CHAT LOGIC
-# ------------------------------------------------------------
+
 if not api_key:
     st.info("👈 Please set your API Key in the sidebar Settings.")
     st.stop()
@@ -140,7 +138,7 @@ if user_query:
         with st.chat_message("assistant"):
             st.warning("⚠️ Please process documents first.")
     else:
-        # --- RAG PIPELINE ---
+        #  RAG PIPELINE 
         retriever = st.session_state.vectors.as_retriever()
         
         context_q_system_prompt = (
