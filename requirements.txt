@@ -1,3 +1,14 @@
-altair
-pandas
 streamlit
+langchain==0.3.0
+langchain-community==0.3.0
+langchain-core==0.3.0
+langchain-groq
+langchain-huggingface
+langchain-text-splitters
+faiss-cpu
+pypdf
+docx2txt
+python-dotenv
+sentence-transformers
+huggingface-hub
+pydantic>=2.0.0
